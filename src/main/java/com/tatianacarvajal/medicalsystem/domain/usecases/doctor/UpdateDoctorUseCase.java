@@ -1,4 +1,4 @@
-package com.tatianacarvajal.medicalsystem.domain.usecases.doctorusecase;
+package com.tatianacarvajal.medicalsystem.domain.usecases.doctor;
 
 import com.tatianacarvajal.medicalsystem.domain.entities.Doctor;
 
