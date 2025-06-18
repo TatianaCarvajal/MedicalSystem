@@ -19,9 +19,7 @@ public class CreateDoctorService implements CreateDoctorUseCase {
         if (doctor.getName() == null || doctor.getName().isBlank()) {
             throw new IllegalArgumentException("Doctor name is mandatory");
         }
-        if (doctor.getSpecialty() == null) {
-            throw new IllegalArgumentException("Doctor specialty is mandatory");
-        }
         return doctorRepository.create(doctor);
     }
 }
+
