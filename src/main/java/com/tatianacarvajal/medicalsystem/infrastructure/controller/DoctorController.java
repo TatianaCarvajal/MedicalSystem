@@ -23,7 +23,7 @@ public class DoctorController {
     private DoctorMapper doctorMapper;
 
     @PostMapping
-    public ResponseEntity<DoctorDto> createDoctor( @RequestBody DoctorDto doctorDto) {
+    public ResponseEntity<DoctorDto> createDoctor(@Valid @RequestBody DoctorDto doctorDto) {
         Doctor doctor = doctorMapper.dtoToDomain(doctorDto);
         Doctor createdDoctor = createDoctorUseCase.create(doctor);
         return ResponseEntity.ok(doctorMapper.domainToDto(createdDoctor));
