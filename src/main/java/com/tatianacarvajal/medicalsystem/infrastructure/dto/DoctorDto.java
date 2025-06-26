@@ -11,7 +11,7 @@ public class DoctorDto {
     private long id;
 
     @NotBlank(message = "Name is mandatory")
-    @Pattern(regexp = ".*[a-zA-Z].*", message = "Doctor name must contain at least one letter")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Doctor name must only contain letters")
     @Size(min = 3, message = "Doctor name must have at least 3 characters")
     private String name;
 
