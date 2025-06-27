@@ -29,7 +29,7 @@ public class DoctorRepositoryImpl implements DoctorRepository {
 
     @Override
     public Optional<Doctor> findById(Long id) {
-        return Optional.empty();
+        return doctorRepositoryJpa.findById(id).map(doctorMapper::entityToDomain);
     }
 
     @Override
@@ -39,7 +39,8 @@ public class DoctorRepositoryImpl implements DoctorRepository {
 
     @Override
     public Doctor update(Doctor doctor) {
-        return null;
+        DoctorEntity doctorEntity = doctorMapper.domainToEntity(doctor);
+        return doctorMapper.entityToDomain(doctorRepositoryJpa.save(doctorEntity));
     }
 
     @Override
