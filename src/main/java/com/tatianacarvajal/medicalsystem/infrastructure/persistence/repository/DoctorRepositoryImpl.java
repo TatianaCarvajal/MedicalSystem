@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class DoctorRepositoryImpl implements DoctorRepository {
@@ -33,8 +34,11 @@ public class DoctorRepositoryImpl implements DoctorRepository {
     }
 
     @Override
-    public List<Doctor> findBySpeciality(MedicalSpecialty specialty) {
-        return List.of();
+    public List<Doctor> findBySpecialty(MedicalSpecialty medicalSpecialty) {
+        return doctorRepositoryJpa.findByMedicalSpecialty(medicalSpecialty)
+                .stream()
+                .map(doctorMapper::entityToDomain)
+                .collect(Collectors.toList());
     }
 
     @Override

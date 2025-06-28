@@ -27,10 +27,10 @@ public class RetrieveDoctorService implements RetrieveDoctorUseCase {
     }
 
     @Override
-    public List<Doctor> findBySpeciality(MedicalSpecialty specialty) {
+    public List<Doctor> findBySpecialty(MedicalSpecialty specialty) {
         try {
             MedicalSpecialty specialtyName = MedicalSpecialty.valueOf(specialty.name().toUpperCase());
-            return doctorRepository.findBySpeciality(specialtyName);
+            return doctorRepository.findBySpecialty(specialtyName);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid specialty name: " + specialty);
         }

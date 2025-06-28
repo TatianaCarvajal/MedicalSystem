@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface DoctorRepository {
     Doctor create(Doctor doctor);
     Optional<Doctor> findById(Long id);
-    List<Doctor> findBySpeciality(MedicalSpecialty specialty);
+    List<Doctor> findBySpecialty(MedicalSpecialty medicalSpecialty);
     Doctor update(Doctor doctor);
     void deleteById(Long id);
 }
