@@ -31,16 +31,15 @@ public class DoctorController {
     @Autowired
     private DoctorMapper doctorMapper;
 
-    @GetMapping("find/{id}")
-    public ResponseEntity<DoctorDto> findById(@PathVariable Long id) {
+    @GetMapping("/by-id")
+    public ResponseEntity<DoctorDto> findById(@RequestHeader("X-Id") Long id) {
         Optional<Doctor> doctor = retrieveDoctorUseCase.findById(id);
         return doctor.map(dto -> ResponseEntity.ok(doctorMapper.domainToDto(dto)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/by-specialty")
-    public ResponseEntity<List<DoctorDto>> findDoctorsBySpecialty(
-            @RequestHeader("X-Medical-Specialty") String specialtyHeader) {
+    public ResponseEntity<List<DoctorDto>> findDoctorsBySpecialty(@RequestHeader("X-Medical-Specialty") String specialtyHeader) {
         MedicalSpecialty medicalSpecialty = MedicalSpecialty.valueOf(specialtyHeader.toUpperCase());
         List<Doctor> doctors = retrieveDoctorUseCase.findBySpecialty(medicalSpecialty);
         List<DoctorDto> doctorDtos = doctors.stream().map(doctorMapper::domainToDto).toList();
