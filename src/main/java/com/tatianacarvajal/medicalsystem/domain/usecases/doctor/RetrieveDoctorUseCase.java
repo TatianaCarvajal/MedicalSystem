@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface RetrieveDoctorUseCase {
     Optional<Doctor> findById(Long id);
-    List<Doctor> findBySpeciality(MedicalSpecialty specialty);
+    List<Doctor> findBySpecialty(MedicalSpecialty specialty);
 }
