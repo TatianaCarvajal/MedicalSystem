@@ -28,6 +28,8 @@ public class UpdateDoctorService implements UpdateDoctorUseCase {
         }
 
         validatedDoctor.setName(doctorName);
+        validatedDoctor.setPhone(doctor.getPhone());
+        validatedDoctor.setSpecialty(doctor.getSpecialty());
         return doctorRepository.update(validatedDoctor);
     }
 }
