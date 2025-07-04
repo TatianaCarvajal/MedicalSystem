@@ -53,9 +53,10 @@ public class DoctorController {
         return ResponseEntity.ok(doctorMapper.domainToDto(createdDoctor));
     }
 
-    @PutMapping("update/{id}")
-    public ResponseEntity<DoctorDto> updateDoctor(@Valid @RequestBody DoctorDto doctorDto, @PathVariable Long id) {
-        doctorDto.setId(id);
+    @PutMapping("/update")
+    public ResponseEntity<DoctorDto> updateDoctor(
+            @Valid @RequestBody DoctorDto doctorDto
+    ) {
         Doctor doctor = doctorMapper.dtoToDomain(doctorDto);
         Doctor updatedDoctor = updateDoctorUseCase.update(doctor);
         return ResponseEntity.ok(doctorMapper.domainToDto(updatedDoctor));
