@@ -24,12 +24,13 @@ public class CreateDoctorService implements CreateDoctorUseCase {
 
         if (doctorName == null || doctorName.isBlank()) {
             errors.add("Doctor name is mandatory");
-        }
-        if (doctorName.matches("\\d+")) {
-            errors.add("Doctor name can not be only numbers");
-        }
-        if (doctorName.length() < 3) {
-            errors.add("Doctor name must have at least 3 characters");
+        } else {
+            if (doctorName.matches("\\d+")) {
+                errors.add("Doctor name can not be only numbers");
+            }
+            if (doctorName.length() < 3) {
+                errors.add("Doctor name must have at least 3 characters");
+            }
         }
         if (!errors.isEmpty()) {
             throw new IllegalArgumentException(String.join(", ", errors));

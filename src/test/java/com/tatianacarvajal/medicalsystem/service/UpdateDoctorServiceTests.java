@@ -73,7 +73,7 @@ public class UpdateDoctorServiceTests {
     }
 
     @Test
-    void testUpdateDoctorNameNull() {
+    void testCreateDoctorNameNullThrowsError() {
         Doctor newDoctor = new Doctor();
         newDoctor.setId(doctor.getId());
         newDoctor.setName(null);
@@ -81,7 +81,6 @@ public class UpdateDoctorServiceTests {
         newDoctor.setPhone("568894347");
 
         when(doctorRepository.findById(2L)).thenReturn(Optional.of(doctor));
-
 
         Exception ex = assertThrows(IllegalArgumentException.class, () -> {
             updateDoctorService.update(newDoctor);
@@ -91,7 +90,7 @@ public class UpdateDoctorServiceTests {
     }
 
     @Test
-    void testUpdateDoctorNameBlank() {
+    void testCreateDoctorNameBlankThrowsError() {
         Doctor newDoctor = new Doctor();
         newDoctor.setId(doctor.getId());
         newDoctor.setName("");
@@ -99,7 +98,6 @@ public class UpdateDoctorServiceTests {
         newDoctor.setPhone("568894347");
 
         when(doctorRepository.findById(2L)).thenReturn(Optional.of(doctor));
-
 
         Exception ex = assertThrows(IllegalArgumentException.class, () -> {
             updateDoctorService.update(newDoctor);
