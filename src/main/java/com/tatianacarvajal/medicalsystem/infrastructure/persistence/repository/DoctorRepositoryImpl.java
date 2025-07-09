@@ -49,6 +49,6 @@ public class DoctorRepositoryImpl implements DoctorRepository {
 
     @Override
     public void deleteById(Long id) {
-
+        doctorRepositoryJpa.deleteById(id);
     }
 }
