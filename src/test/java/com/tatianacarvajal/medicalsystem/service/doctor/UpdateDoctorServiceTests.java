@@ -1,6 +1,6 @@
-package com.tatianacarvajal.medicalsystem.service;
+package com.tatianacarvajal.medicalsystem.service.doctor;
 
-import com.tatianacarvajal.medicalsystem.application.service.UpdateDoctorService;
+import com.tatianacarvajal.medicalsystem.application.service.doctor.UpdateDoctorService;
 import com.tatianacarvajal.medicalsystem.domain.entities.Doctor;
 import com.tatianacarvajal.medicalsystem.domain.entities.MedicalSpecialty;
 import com.tatianacarvajal.medicalsystem.domain.repository.DoctorRepository;

@@ -1,4 +1,4 @@
-package com.tatianacarvajal.medicalsystem.infrastructure.persistence.repository;
+package com.tatianacarvajal.medicalsystem.infrastructure.persistence.repository.doctor;
 
 import com.tatianacarvajal.medicalsystem.domain.entities.Doctor;
 import com.tatianacarvajal.medicalsystem.domain.entities.MedicalSpecialty;
