@@ -1,4 +1,4 @@
-package com.tatianacarvajal.medicalsystem.service;
+package com.tatianacarvajal.medicalsystem.service.doctor;
 
 import com.tatianacarvajal.medicalsystem.application.service.doctor.DeleteDoctorService;
 import com.tatianacarvajal.medicalsystem.domain.entities.Doctor;

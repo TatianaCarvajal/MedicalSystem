@@ -1,4 +1,4 @@
-package com.tatianacarvajal.medicalsystem.service;
+package com.tatianacarvajal.medicalsystem.service.doctor;
 
 import com.tatianacarvajal.medicalsystem.application.service.doctor.CreateDoctorService;
 import com.tatianacarvajal.medicalsystem.domain.entities.Doctor;
@@ -28,7 +28,7 @@ public class CreateDoctorServiceTests {
     CreateDoctorService createDoctorService;
 
     @Test
-    void createDoctor() {
+    void testCreateDoctor() {
         when(doctorRepository.findBySpecialty(MedicalSpecialty.ENDOCRINOLOGY)).thenReturn(new ArrayList<>());
 
         Doctor createdDoctor = new Doctor();
