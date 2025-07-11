@@ -17,7 +17,7 @@ public class UpdatePatientService implements UpdatePatientUseCase {
 
     @Override
     public Patient update(Patient patient) {
-        long id = patient.getId();
+        Long id = patient.getId();
         String patientName = patient.getName();
         String document = patient.getDocument();
 
@@ -26,8 +26,7 @@ public class UpdatePatientService implements UpdatePatientUseCase {
 
         if (patientName == null || patientName.isBlank()) {
             throw new IllegalArgumentException("Patient name is mandatory");
-        }
-        if (document == null || document.isBlank()) {
+        } else if (document == null || document.isBlank()) {
             throw new IllegalArgumentException("Patient document number is mandatory");
         }
 

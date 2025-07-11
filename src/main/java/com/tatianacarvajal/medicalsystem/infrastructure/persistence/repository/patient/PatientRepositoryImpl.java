@@ -27,7 +27,7 @@ public class PatientRepositoryImpl implements PatientRepository {
 
     @Override
     public Optional<Patient> findById(Long id) {
-        return Optional.empty();
+        return patientRepositoryJpa.findById(id).map(patientMapper::entityToDomain);
     }
 
     @Override
