@@ -27,12 +27,13 @@ public class PatientRepositoryImpl implements PatientRepository {
 
     @Override
     public Optional<Patient> findById(Long id) {
-        return Optional.empty();
+        return patientRepositoryJpa.findById(id).map(patientMapper::entityToDomain);
     }
 
     @Override
     public Patient update(Patient patient) {
-        return null;
+        PatientEntity patientEntity = patientMapper.domainToEntity(patient);
+        return patientMapper.entityToDomain(patientRepositoryJpa.save(patientEntity));
     }
 
     @Override
