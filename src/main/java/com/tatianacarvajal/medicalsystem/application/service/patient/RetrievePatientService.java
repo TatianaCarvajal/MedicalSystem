@@ -20,7 +20,7 @@ public class RetrievePatientService implements RetrievePatientUseCase {
     @Override
     public Optional<Patient> findById(Long id) {
         Patient validatedPatient = patientRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Doctor was not found with that id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Patient was not found with that id: " + id));
         return patientRepository.findById(id);
     }
 }

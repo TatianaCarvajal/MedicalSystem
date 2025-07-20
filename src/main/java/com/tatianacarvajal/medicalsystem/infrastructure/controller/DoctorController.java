@@ -37,7 +37,7 @@ public class DoctorController {
     private DoctorMapper doctorMapper;
 
     @GetMapping("/by-id")
-    public ResponseEntity<DoctorDto> findById(@RequestHeader("X-Id") Long id) {
+    public ResponseEntity<DoctorDto> findDoctorById(@RequestHeader("X-Id") Long id) {
         Optional<Doctor> doctor = retrieveDoctorUseCase.findById(id);
         return doctor.map(dto -> ResponseEntity.ok(doctorMapper.domainToDto(dto)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
