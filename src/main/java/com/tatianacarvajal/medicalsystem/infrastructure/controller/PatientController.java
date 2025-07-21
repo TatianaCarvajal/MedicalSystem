@@ -2,12 +2,14 @@ package com.tatianacarvajal.medicalsystem.infrastructure.controller;
 
 import com.tatianacarvajal.medicalsystem.domain.entities.Patient;
 import com.tatianacarvajal.medicalsystem.domain.usecases.patient.CreatePatientUseCase;
+import com.tatianacarvajal.medicalsystem.domain.usecases.patient.DeletePatientUseCase;
 import com.tatianacarvajal.medicalsystem.domain.usecases.patient.RetrievePatientUseCase;
 import com.tatianacarvajal.medicalsystem.domain.usecases.patient.UpdatePatientUseCase;
 import com.tatianacarvajal.medicalsystem.infrastructure.dto.PatientDto;
 import com.tatianacarvajal.medicalsystem.infrastructure.mapper.PatientMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,9 @@ public class PatientController {
 
     @Autowired
     private RetrievePatientUseCase retrievePatientUseCase;
+
+    @Autowired
+    private DeletePatientUseCase deletePatientUseCase;
 
     @Autowired
     private PatientMapper patientMapper;
@@ -48,5 +53,11 @@ public class PatientController {
         Patient patient = patientMapper.dtoToDomain(patientDto);
         Patient updatedPatient = updatePatientUseCase.update(patient);
         return ResponseEntity.ok(patientMapper.domainToDto(updatedPatient));
+    }
+
+    @DeleteMapping("/delete")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deletePatient(@RequestHeader("X-Id") Long id) {
+        deletePatientUseCase.deleteById(id);
     }
 }

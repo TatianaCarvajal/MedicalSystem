@@ -69,7 +69,7 @@ public class DoctorController {
 
     @DeleteMapping("/delete")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteById(@RequestHeader("X-Id") Long id) {
+    public void deleteDoctor(@RequestHeader("X-Id") Long id) {
         deleteDoctorUseCase.deleteById(id);
     }
 }
