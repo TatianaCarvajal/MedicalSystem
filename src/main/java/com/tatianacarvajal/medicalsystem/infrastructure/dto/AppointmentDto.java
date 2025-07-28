@@ -12,11 +12,9 @@ public class AppointmentDto {
     private long id;
 
     @NotNull(message = "Doctor is mandatory")
-    @Valid
     private DoctorDto doctor;
 
     @NotNull(message = "Patient is mandatory")
-    @Valid
     private PatientDto patient;
 
     @NotNull(message = "Date is mandatory")

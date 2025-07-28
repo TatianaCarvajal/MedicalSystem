@@ -8,13 +8,6 @@ public class Appointment {
     private Patient patient;
     private LocalDateTime dateTime;
 
-    private Appointment(Long id, Doctor doctor, Patient patient, LocalDateTime dateTime) {
-        this.id = id;
-        this.doctor = doctor;
-        this.patient = patient;
-        this.dateTime = dateTime;
-    }
-
     public Long getId() {
         return id;
     }
