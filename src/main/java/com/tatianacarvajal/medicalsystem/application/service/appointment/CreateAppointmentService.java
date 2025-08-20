@@ -44,11 +44,19 @@ public class CreateAppointmentService implements CreateAppointmentUseCase {
         if (dateTime == null || dateTime.isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Appointment date must not be null and have to be in the future");
         }
+
+        boolean doctorOccupied = appointmentRepository
+                .findByDoctorAvailability(doctorId, dateTime)
+                .isPresent();
+
+        if (doctorOccupied) {
+            throw new IllegalArgumentException("The doctor already has an appointment at this time.");
+        }
+
         appointment.setDoctor(validatedDoctor);
         appointment.setPatient(validatedPatient);
         appointment.setDateTime(dateTime);
 
         return appointmentRepository.create(appointment);
-
     }
 }
