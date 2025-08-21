@@ -6,6 +6,7 @@ import com.tatianacarvajal.medicalsystem.infrastructure.mapper.AppointmentMapper
 import com.tatianacarvajal.medicalsystem.infrastructure.persistence.entity.AppointmentEntity;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,12 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public List<Appointment> findAllAppointmentsOf(Long patientId) {
         return List.of();
+    }
+
+    @Override
+    public Optional<Appointment> findByDoctorAvailability(Long doctorId, LocalDateTime dateTime) {
+        return appointmentRepositoryJpa.findByDoctor_DoctorIdAndDateTime(doctorId, dateTime)
+                .map(appointmentMapper::entityToDomain);
     }
 
     @Override
