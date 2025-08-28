@@ -12,6 +12,7 @@ public interface AppointmentRepository {
     Optional<Appointment> findById(Long id);
     List<Appointment> findAllAppointmentsOf(Long patientId);
     Optional<Appointment> findByDoctorAvailability(Long doctorId, LocalDateTime dateTime);
+    Optional<Appointment> findByPatientAvailability(Long patientId, LocalDateTime dateTime);
     Appointment update(Appointment appointment);
     void deleteById(Long id);
 }

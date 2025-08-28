@@ -10,6 +10,9 @@ import com.tatianacarvajal.medicalsystem.domain.usecases.appointment.UpdateAppoi
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @Service
 public class UpdateAppointmentService implements UpdateAppointmentUseCase {
 
@@ -32,6 +35,7 @@ public class UpdateAppointmentService implements UpdateAppointmentUseCase {
         Long id = appointment.getId();
         Long doctorId = appointment.getDoctor().getId();
         Long patientId = appointment.getPatient().getId();
+        LocalDateTime dateTime = appointment.getDateTime();
 
         Appointment validatedAppointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Appointment was not found with that id: " + id));
@@ -41,6 +45,21 @@ public class UpdateAppointmentService implements UpdateAppointmentUseCase {
 
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new EntityNotFoundException("Patient was not found with id: " + patientId));
+
+
+        Optional<Appointment> doctorAvailability = appointmentRepository
+                .findByDoctorAvailability(doctorId, dateTime);
+
+        if (doctorAvailability.isPresent() && !doctorAvailability.get().getId().equals(id)) {
+            throw new IllegalArgumentException("The doctor already has an appointment at this time.");
+        }
+
+        Optional<Appointment> patientAvailability = appointmentRepository
+                .findByPatientAvailability(patientId, dateTime);
+
+        if (patientAvailability.isPresent() && !patientAvailability.get().getId().equals(id)) {
+            throw new IllegalArgumentException("The patient already has an appointment at this time.");
+        }
 
         validatedAppointment.setDoctor(doctor);
         validatedAppointment.setPatient(patient);
