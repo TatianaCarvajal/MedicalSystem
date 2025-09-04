@@ -41,11 +41,10 @@ public class UpdateAppointmentService implements UpdateAppointmentUseCase {
                 .orElseThrow(() -> new EntityNotFoundException("Appointment was not found with that id: " + id));
 
         Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new EntityNotFoundException("Doctor was not found with id: " + doctorId));
+                .orElseThrow(() -> new EntityNotFoundException("Doctor was not found with that id: " + doctorId));
 
         Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new EntityNotFoundException("Patient was not found with id: " + patientId));
-
+                .orElseThrow(() -> new EntityNotFoundException("Patient was not found with that id: " + patientId));
 
         Optional<Appointment> doctorAvailability = appointmentRepository
                 .findByDoctorAvailability(doctorId, dateTime);
