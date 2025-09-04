@@ -34,7 +34,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public Optional<Appointment> findById(Long id) {
-        return Optional.empty();
+        return appointmentRepositoryJpa.findById(id).map(appointmentMapper::entityToDomain);
     }
 
     @Override
@@ -49,8 +49,15 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     }
 
     @Override
+    public Optional<Appointment> findByPatientAvailability(Long patientId, LocalDateTime dateTime) {
+        return appointmentRepositoryJpa.findByPatient_PatientIdAndDateTime(patientId, dateTime)
+                .map(appointmentMapper::entityToDomain);
+    }
+
+    @Override
     public Appointment update(Appointment appointment) {
-        return null;
+        AppointmentEntity appointmentEntity = appointmentMapper.domainToEntity(appointment);
+        return appointmentMapper.entityToDomain(appointmentRepositoryJpa.save(appointmentEntity));
     }
 
     @Override

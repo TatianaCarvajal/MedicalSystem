@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface AppointmentRepositoryJpa extends JpaRepository<AppointmentEntity, Long> {
     Optional<AppointmentEntity> findByDoctor_DoctorIdAndDateTime(Long doctorId, LocalDateTime dateTime);
+    Optional<AppointmentEntity> findByPatient_PatientIdAndDateTime(Long patientId, LocalDateTime dateTime);
 }

@@ -4,6 +4,8 @@ import com.tatianacarvajal.medicalsystem.domain.entities.Appointment;
 import com.tatianacarvajal.medicalsystem.domain.entities.Doctor;
 import com.tatianacarvajal.medicalsystem.domain.entities.Patient;
 import com.tatianacarvajal.medicalsystem.domain.usecases.appointment.CreateAppointmentUseCase;
+import com.tatianacarvajal.medicalsystem.domain.usecases.appointment.RetrieveAppointmentUseCase;
+import com.tatianacarvajal.medicalsystem.domain.usecases.appointment.UpdateAppointmentUseCase;
 import com.tatianacarvajal.medicalsystem.domain.usecases.doctor.RetrieveDoctorUseCase;
 import com.tatianacarvajal.medicalsystem.domain.usecases.patient.RetrievePatientUseCase;
 import com.tatianacarvajal.medicalsystem.infrastructure.dto.AppointmentDto;
@@ -13,10 +15,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -26,6 +25,12 @@ public class AppointmentController {
 
     @Autowired
     private CreateAppointmentUseCase createAppointmentUseCase;
+
+    @Autowired
+    private UpdateAppointmentUseCase updateAppointmentUseCase;
+
+    @Autowired
+    private RetrieveAppointmentUseCase retrieveAppointmentUseCase;
 
     @Autowired
     private RetrieveDoctorUseCase retrieveDoctorUseCase;
@@ -52,6 +57,30 @@ public class AppointmentController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                    .body(null);
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<AppointmentDto> updateAppointment(@Valid @RequestBody AppointmentRequestDto appointmentRequestDto) {
+        Optional<Appointment> existingAppointment = retrieveAppointmentUseCase.findById(appointmentRequestDto.getId());
+        if (existingAppointment.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        Optional<Doctor> doctor = retrieveDoctorUseCase.findById(appointmentRequestDto.getDoctorId());
+        Optional<Patient> patient = retrievePatientUseCase.findById(appointmentRequestDto.getPatientId());
+
+        if(doctor.isPresent() && patient.isPresent()) {
+            Appointment appointment = existingAppointment.get();
+            appointment.setDoctor(doctor.get());
+            appointment.setPatient(patient.get());
+            appointment.setDateTime(appointmentRequestDto.getDateTime());
+
+            Appointment updatedAppointment = updateAppointmentUseCase.updateAppointment(appointment);
+            return ResponseEntity.ok(appointmentMapper.domainToDto(updatedAppointment));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(null);
         }
     }
 }
