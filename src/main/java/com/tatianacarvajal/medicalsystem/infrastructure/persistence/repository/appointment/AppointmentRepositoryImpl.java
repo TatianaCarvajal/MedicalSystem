@@ -43,7 +43,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public List<Appointment> findAppointmentsByPatientId(Long patientId) {
-        return appointmentRepositoryJpa.findAllPatientAppointments(patientId)
+        return appointmentRepositoryJpa.findByPatient_PatientId(patientId)
                 .stream()
                 .map(appointmentMapper::entityToDomain)
                 .collect(Collectors.toList());
