@@ -40,8 +40,15 @@ public class RetrieveAppointmentService implements RetrieveAppointmentUseCase {
 
     @Override
     public List<Appointment> findAllAppointmentsOf(Long patientId) {
-        Patient validatedPatient = patientRepository.findById(patientId)
+        patientRepository.findById(patientId)
                 .orElseThrow(() -> new EntityNotFoundException("Patient was not found with that id: " + patientId));
-        return appointmentRepository.findAppointmentsByPatientId(patientId);
+
+        List<Appointment> appointments = appointmentRepository.findAppointmentsByPatientId(patientId);
+
+        if (appointments.isEmpty()) {
+            throw new EntityNotFoundException("No appointments found for patient with id: " + patientId);
+        }
+
+        return appointments;
     }
 }
