@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class AppointmentRepositoryImpl implements AppointmentRepository {
@@ -29,7 +30,10 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public List<Appointment> findAll() {
-        return List.of();
+        return appointmentRepositoryJpa.findAll()
+                .stream()
+                .map(appointmentMapper::entityToDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -38,8 +42,11 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     }
 
     @Override
-    public List<Appointment> findAllAppointmentsOf(Long patientId) {
-        return List.of();
+    public List<Appointment> findAppointmentsByPatientId(Long patientId) {
+        return appointmentRepositoryJpa.findByPatient_PatientId(patientId)
+                .stream()
+                .map(appointmentMapper::entityToDomain)
+                .collect(Collectors.toList());
     }
 
     @Override

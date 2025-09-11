@@ -17,7 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/appointments")
@@ -40,6 +42,31 @@ public class AppointmentController {
 
     @Autowired
     private AppointmentMapper appointmentMapper;
+
+    @GetMapping
+    public ResponseEntity<List<AppointmentDto>> findAllAppointments() {
+        List<Appointment> appointments = retrieveAppointmentUseCase.findAll();
+        List<AppointmentDto> appointmentDtos = appointments.stream()
+                .map(appointmentMapper::domainToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(appointmentDtos);
+    }
+
+    @GetMapping("/by-id")
+    public ResponseEntity<AppointmentDto> findAppointmentById(@RequestHeader("X-Id") Long id) {
+        Optional<Appointment> appointment = retrieveAppointmentUseCase.findById(id);
+        return appointment.map(dto -> ResponseEntity.ok(appointmentMapper.domainToDto(dto)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("by-patient")
+    public ResponseEntity<List<AppointmentDto>> findAppointmentByPatient(@RequestHeader("X-Patient-Id") Long patientId) {
+        List<Appointment> appointments = retrieveAppointmentUseCase.findAllAppointmentsOf(patientId);
+        List<AppointmentDto> appointmentDtos = appointments.stream()
+                .map(appointmentMapper::domainToDto)
+                .toList();
+        return ResponseEntity.ok(appointmentDtos);
+    }
 
     @PostMapping
     public ResponseEntity<AppointmentDto> createAppointment(@Valid @RequestBody AppointmentRequestDto appointmentRequestDto) {
