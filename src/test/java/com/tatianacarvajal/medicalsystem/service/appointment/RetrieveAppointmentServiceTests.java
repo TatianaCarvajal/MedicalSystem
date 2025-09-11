@@ -6,7 +6,6 @@ import com.tatianacarvajal.medicalsystem.domain.entities.Doctor;
 import com.tatianacarvajal.medicalsystem.domain.entities.MedicalSpecialty;
 import com.tatianacarvajal.medicalsystem.domain.entities.Patient;
 import com.tatianacarvajal.medicalsystem.domain.repository.AppointmentRepository;
-import com.tatianacarvajal.medicalsystem.domain.repository.DoctorRepository;
 import com.tatianacarvajal.medicalsystem.domain.repository.PatientRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;

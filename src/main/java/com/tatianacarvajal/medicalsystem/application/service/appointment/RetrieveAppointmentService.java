@@ -1,7 +1,6 @@
 package com.tatianacarvajal.medicalsystem.application.service.appointment;
 
 import com.tatianacarvajal.medicalsystem.domain.entities.Appointment;
-import com.tatianacarvajal.medicalsystem.domain.entities.Patient;
 import com.tatianacarvajal.medicalsystem.domain.repository.AppointmentRepository;
 import com.tatianacarvajal.medicalsystem.domain.repository.PatientRepository;
 import com.tatianacarvajal.medicalsystem.domain.usecases.appointment.RetrieveAppointmentUseCase;
@@ -48,7 +47,6 @@ public class RetrieveAppointmentService implements RetrieveAppointmentUseCase {
         if (appointments.isEmpty()) {
             throw new EntityNotFoundException("No appointments found for patient with id: " + patientId);
         }
-
         return appointments;
     }
 }
