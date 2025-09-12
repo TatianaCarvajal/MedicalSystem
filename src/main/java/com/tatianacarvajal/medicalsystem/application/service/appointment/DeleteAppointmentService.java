@@ -4,9 +4,11 @@ import com.tatianacarvajal.medicalsystem.domain.entities.Appointment;
 import com.tatianacarvajal.medicalsystem.domain.repository.AppointmentRepository;
 import com.tatianacarvajal.medicalsystem.domain.usecases.appointment.DeleteAppointmentUseCase;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class DeleteAppointmentService implements DeleteAppointmentUseCase {
 
     private final AppointmentRepository appointmentRepository;

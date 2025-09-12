@@ -4,6 +4,7 @@ import com.tatianacarvajal.medicalsystem.domain.entities.Appointment;
 import com.tatianacarvajal.medicalsystem.domain.entities.Doctor;
 import com.tatianacarvajal.medicalsystem.domain.entities.Patient;
 import com.tatianacarvajal.medicalsystem.domain.usecases.appointment.CreateAppointmentUseCase;
+import com.tatianacarvajal.medicalsystem.domain.usecases.appointment.DeleteAppointmentUseCase;
 import com.tatianacarvajal.medicalsystem.domain.usecases.appointment.RetrieveAppointmentUseCase;
 import com.tatianacarvajal.medicalsystem.domain.usecases.appointment.UpdateAppointmentUseCase;
 import com.tatianacarvajal.medicalsystem.domain.usecases.doctor.RetrieveDoctorUseCase;
@@ -33,6 +34,9 @@ public class AppointmentController {
 
     @Autowired
     private RetrieveAppointmentUseCase retrieveAppointmentUseCase;
+
+    @Autowired
+    private DeleteAppointmentUseCase deleteAppointmentUseCase;
 
     @Autowired
     private RetrieveDoctorUseCase retrieveDoctorUseCase;
@@ -73,7 +77,7 @@ public class AppointmentController {
         Optional<Doctor> doctor = retrieveDoctorUseCase.findById(appointmentRequestDto.getDoctorId());
         Optional<Patient> patient = retrievePatientUseCase.findById(appointmentRequestDto.getPatientId());
 
-        if(doctor.isPresent() && patient.isPresent()) {
+        if (doctor.isPresent() && patient.isPresent()) {
             Appointment appointment = new Appointment();
             appointment.setDoctor(doctor.get());
             appointment.setPatient(patient.get());
@@ -83,7 +87,7 @@ public class AppointmentController {
             return ResponseEntity.ok(appointmentMapper.domainToDto(createdAppointment));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                   .body(null);
+                    .body(null);
         }
     }
 
@@ -97,7 +101,7 @@ public class AppointmentController {
         Optional<Doctor> doctor = retrieveDoctorUseCase.findById(appointmentRequestDto.getDoctorId());
         Optional<Patient> patient = retrievePatientUseCase.findById(appointmentRequestDto.getPatientId());
 
-        if(doctor.isPresent() && patient.isPresent()) {
+        if (doctor.isPresent() && patient.isPresent()) {
             Appointment appointment = existingAppointment.get();
             appointment.setDoctor(doctor.get());
             appointment.setPatient(patient.get());
@@ -109,5 +113,11 @@ public class AppointmentController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(null);
         }
+    }
+
+    @DeleteMapping("/delete")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deleteAppointment(@RequestHeader("X-Id") Long id) {
+        deleteAppointmentUseCase.deleteAppointment(id);
     }
 }
