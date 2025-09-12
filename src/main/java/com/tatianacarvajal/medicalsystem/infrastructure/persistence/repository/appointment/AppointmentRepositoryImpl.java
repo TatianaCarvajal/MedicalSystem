@@ -69,6 +69,6 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public void deleteById(Long id) {
-
+        appointmentRepositoryJpa.deleteById(id);
     }
 }
