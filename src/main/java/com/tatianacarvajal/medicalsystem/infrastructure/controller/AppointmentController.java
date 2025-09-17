@@ -12,6 +12,8 @@ import com.tatianacarvajal.medicalsystem.domain.usecases.patient.RetrievePatient
 import com.tatianacarvajal.medicalsystem.infrastructure.dto.AppointmentDto;
 import com.tatianacarvajal.medicalsystem.infrastructure.dto.AppointmentRequestDto;
 import com.tatianacarvajal.medicalsystem.infrastructure.mapper.AppointmentMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
+@Tag(name = "Appointments", description = "Methods related to appointment")
 @RequestMapping("/api/v1/appointments")
 public class AppointmentController {
 
@@ -48,6 +51,7 @@ public class AppointmentController {
     private AppointmentMapper appointmentMapper;
 
     @GetMapping
+    @Operation(summary = "Get all appointments")
     public ResponseEntity<List<AppointmentDto>> findAllAppointments() {
         List<Appointment> appointments = retrieveAppointmentUseCase.findAll();
         List<AppointmentDto> appointmentDtos = appointments.stream()
@@ -57,6 +61,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/by-id")
+    @Operation(summary = "Get appointment by ID")
     public ResponseEntity<AppointmentDto> findAppointmentById(@RequestHeader("X-Id") Long id) {
         Optional<Appointment> appointment = retrieveAppointmentUseCase.findById(id);
         return appointment.map(dto -> ResponseEntity.ok(appointmentMapper.domainToDto(dto)))
@@ -64,6 +69,7 @@ public class AppointmentController {
     }
 
     @GetMapping("by-patient")
+    @Operation(summary = "Get patient appointments")
     public ResponseEntity<List<AppointmentDto>> findAppointmentByPatient(@RequestHeader("X-Patient-Id") Long patientId) {
         List<Appointment> appointments = retrieveAppointmentUseCase.findAllAppointmentsOf(patientId);
         List<AppointmentDto> appointmentDtos = appointments.stream()
@@ -73,6 +79,7 @@ public class AppointmentController {
     }
 
     @PostMapping
+    @Operation(summary = "Create appointment")
     public ResponseEntity<AppointmentDto> createAppointment(@Valid @RequestBody AppointmentRequestDto appointmentRequestDto) {
         Optional<Doctor> doctor = retrieveDoctorUseCase.findById(appointmentRequestDto.getDoctorId());
         Optional<Patient> patient = retrievePatientUseCase.findById(appointmentRequestDto.getPatientId());
@@ -92,6 +99,7 @@ public class AppointmentController {
     }
 
     @PutMapping("/update")
+    @Operation(summary = "Update appointment information")
     public ResponseEntity<AppointmentDto> updateAppointment(@Valid @RequestBody AppointmentRequestDto appointmentRequestDto) {
         Optional<Appointment> existingAppointment = retrieveAppointmentUseCase.findById(appointmentRequestDto.getId());
         if (existingAppointment.isEmpty()) {
@@ -116,6 +124,7 @@ public class AppointmentController {
     }
 
     @DeleteMapping("/delete")
+    @Operation(summary = "Delete appointment")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteAppointment(@RequestHeader("X-Id") Long id) {
         deleteAppointmentUseCase.deleteAppointment(id);

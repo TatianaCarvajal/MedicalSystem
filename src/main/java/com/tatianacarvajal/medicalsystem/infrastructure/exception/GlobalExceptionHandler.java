@@ -1,6 +1,7 @@
 package com.tatianacarvajal.medicalsystem.infrastructure.exception;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -12,10 +13,12 @@ import org.springframework.web.context.request.WebRequest;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+@Hidden
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
+    @Hidden
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
@@ -26,6 +29,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
+    @Hidden
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex, WebRequest request) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -36,6 +40,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @Hidden
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, WebRequest request) {
         String message = ex.getBindingResult().getFieldErrors().stream()
                 .map(error -> error.getField() + " : " + error.getDefaultMessage())
@@ -51,6 +56,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
+    @Hidden
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, WebRequest request) {
         Throwable cause = ex.getCause();
         String message = "Invalid request body format.";
