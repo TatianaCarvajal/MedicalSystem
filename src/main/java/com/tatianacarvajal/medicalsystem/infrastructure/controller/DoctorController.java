@@ -8,6 +8,8 @@ import com.tatianacarvajal.medicalsystem.domain.usecases.doctor.RetrieveDoctorUs
 import com.tatianacarvajal.medicalsystem.domain.usecases.doctor.UpdateDoctorUseCase;
 import com.tatianacarvajal.medicalsystem.infrastructure.dto.DoctorDto;
 import com.tatianacarvajal.medicalsystem.infrastructure.mapper.DoctorMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Tag(name = "Doctors", description = "Methods related to the doctor")
 @RequestMapping("/api/v1/doctors")
 public class DoctorController {
 
@@ -37,6 +40,7 @@ public class DoctorController {
     private DoctorMapper doctorMapper;
 
     @GetMapping("/by-id")
+    @Operation(summary = "Get doctor by ID")
     public ResponseEntity<DoctorDto> findDoctorById(@RequestHeader("X-Id") Long id) {
         Optional<Doctor> doctor = retrieveDoctorUseCase.findById(id);
         return doctor.map(dto -> ResponseEntity.ok(doctorMapper.domainToDto(dto)))
@@ -44,6 +48,7 @@ public class DoctorController {
     }
 
     @GetMapping("/by-specialty")
+    @Operation(summary = "Get doctor by medical specialty")
     public ResponseEntity<List<DoctorDto>> findDoctorsBySpecialty(@RequestHeader("X-Medical-Specialty") String specialtyHeader) {
         MedicalSpecialty medicalSpecialty = MedicalSpecialty.valueOf(specialtyHeader.toUpperCase());
         List<Doctor> doctors = retrieveDoctorUseCase.findBySpecialty(medicalSpecialty);
@@ -52,6 +57,7 @@ public class DoctorController {
     }
 
     @PostMapping
+    @Operation(summary = "Create doctor")
     public ResponseEntity<DoctorDto> createDoctor(@Valid @RequestBody DoctorDto doctorDto) {
         Doctor doctor = doctorMapper.dtoToDomain(doctorDto);
         Doctor createdDoctor = createDoctorUseCase.create(doctor);
@@ -59,6 +65,7 @@ public class DoctorController {
     }
 
     @PutMapping("/update")
+    @Operation(summary = "Update doctor information")
     public ResponseEntity<DoctorDto> updateDoctor(
             @Valid @RequestBody DoctorDto doctorDto
     ) {
@@ -68,6 +75,7 @@ public class DoctorController {
     }
 
     @DeleteMapping("/delete")
+    @Operation(summary = "Delete doctor")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteDoctor(@RequestHeader("X-Id") Long id) {
         deleteDoctorUseCase.deleteById(id);
